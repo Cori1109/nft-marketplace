@@ -3,7 +3,7 @@ import { Menu } from "antd";
 import { NavLink } from "react-router-dom";
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 
-const MobileDrawer = (setInputValue) => {
+const MobileDrawer = () => {
   const [toggle, setToggle] = useState(false);
 
   // Toggle drawer
@@ -31,12 +31,12 @@ const MobileDrawer = (setInputValue) => {
           </Menu.Item>
           <Menu.Item key="nft">
             <NavLink to="/nftBalance" onClick={toggleHandler}>
-              🖼 Your Collection
+              🖼 My Collections
             </NavLink>
           </Menu.Item>
-          <Menu.Item key="transactions">
-            <NavLink to="/Transactions" onClick={toggleHandler}>
-              📑 Your Transactions
+          <Menu.Item key="create">
+            <NavLink to="/createNFT" onClick={toggleHandler}>
+              📑 Create an NFT
             </NavLink>
           </Menu.Item>
         </Menu>

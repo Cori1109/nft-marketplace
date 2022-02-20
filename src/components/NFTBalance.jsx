@@ -32,6 +32,7 @@ function NFTBalance() {
   const [nftToSend, setNftToSend] = useState(null);
   const [price, setPrice] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [symbol, setSymbol] = useState("ETH");
   const [myNFTs, setMyNFTs] = useState([]);
   const { state: state1, send: createMarketItem } =
@@ -45,7 +46,7 @@ function NFTBalance() {
     if (stmp) setSymbol(stmp);
     console.log("before called", account, chainId);
     if (chainId) {
-      await GetMyNFTs(account, chainId, setLoading, setMyNFTs);
+      await GetMyNFTs(account, chainId, setFetching, setMyNFTs);
     }
   }, [account, chainId]);
 
@@ -53,7 +54,7 @@ function NFTBalance() {
     setLoading(true);
     const liPrice = listPrice * ("1e" + 18);
     console.log("list--------", nft.token_address, nft.token_id, liPrice);
-    createMarketItem(nft.token_address, nft.token_id, liPrice);
+    await createMarketItem(nft.token_address, nft.token_id, liPrice);
     setLoading(false);
   };
 
@@ -64,7 +65,7 @@ function NFTBalance() {
       MarketPlaceAddress,
       nft.token_id
     );
-    setApprove(MarketPlaceAddress, nft.token_id);
+    await setApprove(MarketPlaceAddress, nft.token_id);
     setLoading(false);
   };
 
@@ -141,8 +142,8 @@ function NFTBalance() {
             <div style={{ marginBottom: "10px" }}></div>
           </>
         )} */}
-        {loading ? (
-          <Spin spinning={loading}>
+        {fetching ? (
+          <Spin spinning={fetching}>
             <Alert
               message="Unable to fetch all NFT metadata... We are searching for a solution, please try again later!"
               type="warning"

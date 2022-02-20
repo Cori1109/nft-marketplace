@@ -145,6 +145,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
       nft?.token_address.toLowerCase(),
       String(nft?.token_id)
     );
+    if (!marketItems) return null;
     const result = marketItems.find(
       (e) =>
         String(e.nftContract).toLowerCase() ===
@@ -159,17 +160,14 @@ function NFTTokenIds({ inputValue, setInputValue }) {
   return (
     <>
       <div>
-        {/* {contractABIJson.noContractDeployed && (
+        {!account && (
           <>
-            <Alert
-              message="No Smart Contract Details Provided. Please deploy smart contract and provide address + ABI in the MoralisDappProvider.js file"
-              type="error"
-            />
+            <Alert message="Please connect your metamask!" type="error" />
             <div style={{ marginBottom: "10px" }}></div>
           </>
-        )} */}
+        )}
 
-        {inputValue !== "explore" && baseNFT.total !== undefined && (
+        {account && inputValue !== "explore" && baseNFT.total !== undefined && (
           <>
             {loading && (
               <Spin spinning={loading}>
@@ -205,82 +203,86 @@ function NFTTokenIds({ inputValue, setInputValue }) {
           </>
         )}
 
-        <div style={styles.NFTs}>
-          {inputValue === "explore" && !account && (
-            <Spin spinning={loading}>
-              <Alert
-                message="Unable to fetch all NFT metadata... We are searching for a solution, please try again later!"
-                type="warning"
-              />
-            </Spin>
-          )}
-          {inputValue === "explore" &&
-            NFTCollections?.map((nft, index) => (
-              <Card
-                hoverable
-                actions={[
-                  <Tooltip title="View Collection">
-                    <RightCircleOutlined
-                      onClick={() => setInputValue(nft?.addrs)}
+        {account && (
+          <div style={styles.NFTs}>
+            {/* {inputValue === "explore" && loading && (
+              <Spin spinning={loading}>
+                <Alert
+                  message="Unable to fetch all NFT metadata... We are searching for a solution, please try again later!"
+                  type="warning"
+                />
+              </Spin>
+            )} */}
+            {inputValue === "explore" &&
+              NFTCollections?.map((nft, index) => (
+                <Card
+                  hoverable
+                  actions={[
+                    <Tooltip title="View Collection">
+                      <RightCircleOutlined
+                        onClick={() => setInputValue(nft?.addrs)}
+                      />
+                    </Tooltip>,
+                  ]}
+                  style={{ width: 240, border: "2px solid #e7eaf3" }}
+                  cover={
+                    <Image
+                      preview={false}
+                      src={nft?.image || "error"}
+                      fallback={fallbackImg}
+                      alt=""
+                      style={{ height: "240px" }}
                     />
-                  </Tooltip>,
-                ]}
-                style={{ width: 240, border: "2px solid #e7eaf3" }}
-                cover={
-                  <Image
-                    preview={false}
-                    src={nft?.image || "error"}
-                    fallback={fallbackImg}
-                    alt=""
-                    style={{ height: "240px" }}
-                  />
-                }
-                key={index}
-              >
-                <Meta title={nft.name} />
-              </Card>
-            ))}
+                  }
+                  key={index}
+                >
+                  <Meta title={nft.name} />
+                </Card>
+              ))}
 
-          {inputValue !== "explore" &&
-            nftMetaData.slice(0, 20).map((nft, index) => (
-              <Card
-                hoverable
-                actions={[
-                  <Tooltip title="View On Blockexplorer">
-                    <FileSearchOutlined
-                      onClick={() =>
-                        window.open(
-                          `${getExplorer(chainId)}address/${
-                            nft?.token_address
-                          }`,
-                          "_blank"
-                        )
-                      }
+            {inputValue !== "explore" &&
+              nftMetaData.slice(0, 20).map((nft, index) => (
+                <Card
+                  hoverable
+                  actions={[
+                    <Tooltip title="View On Blockexplorer">
+                      <FileSearchOutlined
+                        onClick={() =>
+                          window.open(
+                            `${getExplorer(chainId)}address/${
+                              nft?.token_address
+                            }`,
+                            "_blank"
+                          )
+                        }
+                      />
+                    </Tooltip>,
+                    <Tooltip title="Buy NFT">
+                      <ShoppingCartOutlined
+                        onClick={() => handleBuyClick(nft)}
+                      />
+                    </Tooltip>,
+                  ]}
+                  style={{ width: 240, border: "2px solid #e7eaf3" }}
+                  cover={
+                    <Image
+                      preview={false}
+                      src={nft.image || "error"}
+                      fallback={fallbackImg}
+                      alt=""
+                      style={{ height: "240px" }}
                     />
-                  </Tooltip>,
-                  <Tooltip title="Buy NFT">
-                    <ShoppingCartOutlined onClick={() => handleBuyClick(nft)} />
-                  </Tooltip>,
-                ]}
-                style={{ width: 240, border: "2px solid #e7eaf3" }}
-                cover={
-                  <Image
-                    preview={false}
-                    src={nft.image || "error"}
-                    fallback={fallbackImg}
-                    alt=""
-                    style={{ height: "240px" }}
-                  />
-                }
-                key={index}
-              >
-                {getMarketItem(nft) && (
-                  <Badge.Ribbon text="Buy Now" color="green"></Badge.Ribbon>
-                )}
-                <Meta title={baseNFT.name} description={`#${nft.token_id}`} />
-              </Card>
-            ))}
-        </div>
+                  }
+                  key={index}
+                >
+                  {getMarketItem(nft) && (
+                    <Badge.Ribbon text="Buy Now" color="green"></Badge.Ribbon>
+                  )}
+                  <Meta title={baseNFT.name} description={`#${nft.token_id}`} />
+                </Card>
+              ))}
+          </div>
+        )}
         {getMarketItem(nftToBuy) ? (
           <Modal
             title={`Buy ${baseNFT.name} #${nftToBuy?.token_id}`}

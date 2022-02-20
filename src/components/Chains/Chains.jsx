@@ -21,12 +21,12 @@ const styles = {
 };
 
 const menuItems = [
-  {
-    id: 1,
-    key: "0x1",
-    value: "Ethereum",
-    icon: <ETHLogo />,
-  },
+  // {
+  //   id: 1,
+  //   key: "0x1",
+  //   value: "Ethereum",
+  //   icon: <ETHLogo />,
+  // },
   // {
   //   key: "0x539",
   //   value: "Local Chain",

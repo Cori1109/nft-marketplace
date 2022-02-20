@@ -4,12 +4,12 @@ import { useIPFS } from "./useIPFS";
 import { FetchMetadata } from "hooks/FetchMetadata";
 import { getCollectionsByChain } from "helpers/collections";
 
-export const GetMyNFTs = async (account, chainId, setLoading, setMyNFTs) => {
+export const GetMyNFTs = async (account, chainId, setFetching, setMyNFTs) => {
   const { resolveLink } = useIPFS();
   const NFTCollections = getCollectionsByChain(chainId);
   const LenData = NFTCollections.length;
   console.log("GetMyNFTs called", LenData);
-  setLoading(true);
+  setFetching(true);
   const createBaseDataWatcher = (collections) => {
     const watcherJson = [];
     for (let i = 0; i < LenData; i++) {
@@ -169,7 +169,7 @@ export const GetMyNFTs = async (account, chainId, setLoading, setMyNFTs) => {
         }
         console.log("==========+++++=========", _nftMetadata);
         setMyNFTs(_nftMetadata);
-        setLoading(false);
+        setFetching(false);
       });
       watcherURIOwner.start();
     });

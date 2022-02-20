@@ -54,8 +54,8 @@ const App = () => {
     <Layout style={styles.layout}>
       <Router>
         <Header>
-          <SearchCollections setInputValue={setInputValue} />
           <MobileDrawer />
+          <SearchCollections setInputValue={setInputValue} />
           <Menu
             theme="light"
             mode="horizontal"
@@ -66,10 +66,10 @@ const App = () => {
               <NavLink to="/NFTMarketPlace">🛒 Explore Market</NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
-              <NavLink to="/nftBalance">🖼 Your Collection</NavLink>
+              <NavLink to="/nftBalance">🖼 My Collections</NavLink>
             </Menu.Item>
-            <Menu.Item key="transactions">
-              <NavLink to="/Transactions">📑 Your Transactions</NavLink>
+            <Menu.Item key="create">
+              <NavLink to="/createNFT">📑 Create an NFT</NavLink>
             </Menu.Item>
           </Menu>
           <div className="headerRight">
@@ -90,9 +90,7 @@ const App = () => {
                   setInputValue={setInputValue}
                 />
               </Route>
-              <Route path="/Transactions">
-                {/* <NFTMarketTransactions /> */}
-              </Route>
+              <Route path="/createNFT">{/* <NFTMarketTransactions /> */}</Route>
             </Switch>
             <Redirect to="/NFTMarketPlace" />
           </div>
