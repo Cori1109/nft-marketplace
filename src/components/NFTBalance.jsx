@@ -47,6 +47,7 @@ function NFTBalance() {
     console.log("before called", account, chainId);
     if (chainId) {
       await GetMyNFTs(account, chainId, setFetching, setMyNFTs);
+      console.log("myNFTs", myNFTs);
     }
   }, [account, chainId]);
 
@@ -56,6 +57,7 @@ function NFTBalance() {
     console.log("list--------", nft.token_address, nft.token_id, liPrice);
     await createMarketItem(nft.token_address, nft.token_id, liPrice);
     setLoading(false);
+    setVisibility(false);
   };
 
   const approve = async (nft) => {
@@ -151,7 +153,7 @@ function NFTBalance() {
           </Spin>
         ) : (
           <>
-            {myNFTs &&
+            {myNFTs.length !== 0 ? (
               myNFTs.map((nft, index) => (
                 <Card
                   hoverable
@@ -188,7 +190,13 @@ function NFTBalance() {
                 >
                   <Meta title={nft.name} description={nft.contract_type} />
                 </Card>
-              ))}
+              ))
+            ) : (
+              <Alert
+                message="You haven't any NFTs, please try again later!"
+                type="warning"
+              />
+            )}
           </>
         )}
       </div>

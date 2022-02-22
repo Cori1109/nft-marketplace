@@ -149,7 +149,7 @@ export const GetMyNFTs = async (account, chainId, setFetching, setMyNFTs) => {
         for (let i = 0; i < LenData; i++) {
           let bcnt = 0;
           for (let j = 0; j < totalSupps[i]; j++) {
-            if (owners[cnt] === account || bcnt >= balances[i]) {
+            if (owners[cnt] === account && bcnt < balances[i]) {
               const metadata = await FetchMetadata(tokenURIs[cnt]);
               // console.log("metadata", metadata);
               const imageURI = metadata ? resolveLink(metadata.image) : null;
