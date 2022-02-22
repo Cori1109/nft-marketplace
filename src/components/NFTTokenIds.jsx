@@ -86,7 +86,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
       symbol: baseData.symbol,
     });
     console.log("basedata", baseData, baseNFT);
-    const temp = await GetMetaData(inputValue, setNftMetaData, setLoading);
+    await GetMetaData(inputValue, setNftMetaData, setLoading);
   };
 
   useEffect(async () => {

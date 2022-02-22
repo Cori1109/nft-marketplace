@@ -9,6 +9,10 @@ const MobileDrawer = () => {
   // Toggle drawer
   const toggleHandler = () => {
     setToggle((prev) => !prev);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (

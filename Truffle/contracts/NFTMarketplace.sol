@@ -37,11 +37,11 @@ contract NFTMarketplace is ReentrancyGuard {
          address owner
          );
      
-    address public owner;
+    address public adminAdress;
     uint public foo;
 
-    constructor(address _owner, uint _foo)  {
-        owner = _owner;
+    constructor(address _admin, uint _foo)  {
+        adminAdress = _admin;
         foo = _foo;
     }
     

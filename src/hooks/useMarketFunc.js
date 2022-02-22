@@ -3,9 +3,9 @@ import { utils } from "ethers";
 import { Contract } from "@ethersproject/contracts";
 import { useContractFunction } from "@usedapp/core";
 import marketplaceABI from "ABI/MarketPlace-ABI";
-import { MarketPlaceAddress } from "contracts/contractAddress";
 import { config } from "config/multicall";
 
+const MarketPlaceAddress = process.env.REACT_APP_MARKETPLACE_ADDRESS;
 const marketplaceInterface = new utils.Interface(marketplaceABI);
 const web3 = new Web3(config.rpcUrl);
 const uContract = new Contract(MarketPlaceAddress, marketplaceInterface);
@@ -13,7 +13,12 @@ const wContract = new web3.eth.Contract(marketplaceABI, MarketPlaceAddress);
 let apprContract;
 
 export async function FetchMarketItems() {
-  const MarketItem = await wContract.methods.fetchMarketItems().call();
+  let MarketItem = [];
+  try {
+    MarketItem = await wContract.methods.fetchMarketItems().call();
+  } catch (error) {
+    console.log("fetchMarketItem error:", error);
+  }
   return MarketItem;
 }
 

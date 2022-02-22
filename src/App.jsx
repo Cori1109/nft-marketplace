@@ -50,26 +50,41 @@ const App = () => {
 
   const [inputValue, setInputValue] = useState("explore");
 
+  const handleRender = () => {
+    setInputValue("explore");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <Layout style={styles.layout}>
       <Router>
         <Header>
           <MobileDrawer />
-          <SearchCollections setInputValue={setInputValue} />
+          <SearchCollections
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+          />
           <Menu
             theme="light"
             mode="horizontal"
             className="headerMenu"
             defaultSelectedKeys={["nftMarket"]}
           >
-            <Menu.Item key="nftMarket" onClick={() => setInputValue("explore")}>
+            <Menu.Item key="nftMarket" onClick={() => handleRender}>
               <NavLink to="/NFTMarketPlace">🛒 Explore Market</NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
-              <NavLink to="/nftBalance">🖼 My Collections</NavLink>
+              <NavLink to="/nftBalance" onClick={() => handleRender}>
+                🖼 My Collections
+              </NavLink>
             </Menu.Item>
             <Menu.Item key="create">
-              <NavLink to="/createNFT">📑 Create an NFT</NavLink>
+              <NavLink to="/createNFT" onClick={() => handleRender}>
+                📑 Create an NFT
+              </NavLink>
             </Menu.Item>
           </Menu>
           <div className="headerRight">

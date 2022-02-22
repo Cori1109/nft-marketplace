@@ -10,8 +10,8 @@ import {
   ApproveMethod,
 } from "hooks/useMarketFunc";
 import { networkConfigs } from "helpers/networks";
-import { MarketPlaceAddress } from "contracts/contractAddress";
 
+const MarketPlaceAddress = process.env.REACT_APP_MARKETPLACE_ADDRESS;
 const { Meta } = Card;
 
 const styles = {
